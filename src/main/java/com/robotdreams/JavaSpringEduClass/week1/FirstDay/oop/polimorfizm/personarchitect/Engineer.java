@@ -1,6 +1,7 @@
 package com.robotdreams.JavaSpringEduClass.week1.FirstDay.oop.polimorfizm.personarchitect;
 
 import com.robotdreams.JavaSpringEduClass.week1.FirstDay.oop.Ogretmen;
+import com.robotdreams.JavaSpringEduClass.week1.FirstDay.oop.polimorfizm.personarchitect.interfaceyapisi.BenefitCompany;
 
 public class Engineer extends Employee {
 
@@ -14,5 +15,21 @@ public class Engineer extends Employee {
         salary = salary + (salary * 30) / 100 ;
         return salary;
     }
+
+    @Override
+    public void transferringEmployees() {
+
+    }
+
+    @Override
+    public void foodService() {
+        System.out.println("xbcnx");
+    }
+
+    @Override
+    public void prepare() {
+        super.prepare();
+    }
+
 
 }

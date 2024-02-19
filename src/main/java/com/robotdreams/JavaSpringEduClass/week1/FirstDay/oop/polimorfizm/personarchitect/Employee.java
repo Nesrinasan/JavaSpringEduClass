@@ -1,9 +1,9 @@
 package com.robotdreams.JavaSpringEduClass.week1.FirstDay.oop.polimorfizm.personarchitect;
 
 
-import com.robotdreams.JavaSpringEduClass.week1.FirstDay.oop.polimorfizm.personarchitect.multiInheritance.BenefitCompany;
+import com.robotdreams.JavaSpringEduClass.week1.FirstDay.oop.polimorfizm.personarchitect.interfaceyapisi.BenefitCompany;
 
-public abstract class Employee {
+public abstract class Employee implements BenefitCompany {
 
     private int tckn;
     private String name;

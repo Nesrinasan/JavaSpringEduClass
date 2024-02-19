@@ -1,6 +1,8 @@
 package com.robotdreams.JavaSpringEduClass.week1.FirstDay.oop.polimorfizm.personarchitect;
 
-public class Manager extends Employee  {
+import com.robotdreams.JavaSpringEduClass.week1.FirstDay.oop.polimorfizm.personarchitect.interfaceyapisi.BenefitCompany;
+
+public class Manager extends Employee {
 
     int floorNumber;
     private final int salaryMultiplier = 1500;
@@ -25,4 +27,13 @@ public class Manager extends Employee  {
     }
 
 
+    @Override
+    public void transferringEmployees() {
+
+    }
+
+    @Override
+    public void foodService() {
+
+    }
 }
