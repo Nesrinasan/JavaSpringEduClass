@@ -12,7 +12,15 @@ public class Client {
      */
     public static void main(String[] args) {
 
-        ExceptionReporterService exceptionReporter = new ExceptionReporterService();
+        ConnectionService connectionService = new ConnectionService("test");
+        String mysql = connectionService.connection("Mysql");
+        String oracle = connectionService.connection("Oracle");
+
+        MysqlDB mysqlDB = new MysqlDB(mysql);
+        OracleDB oracleDB = new OracleDB(oracle);
+
+        ReporterService exceptionReporter = new ReporterService(mysqlDB, oracleDB);
+
         exceptionReporter.exceptionReportOracle();
         exceptionReporter.exceptionReportMysql();
 

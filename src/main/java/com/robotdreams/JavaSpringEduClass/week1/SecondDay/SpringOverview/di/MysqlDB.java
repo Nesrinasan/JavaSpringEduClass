@@ -1,6 +1,6 @@
 package com.robotdreams.JavaSpringEduClass.week1.SecondDay.SpringOverview.di;
 
-public class MysqlDB implements Database {
+public class MysqlDB implements DatabaseService {
 
     public String connection;
 
@@ -8,6 +8,7 @@ public class MysqlDB implements Database {
         this.connection = connection;
     }
 
+    @Override
     public void report(){
         System.out.println("send report MYSQL");
     }

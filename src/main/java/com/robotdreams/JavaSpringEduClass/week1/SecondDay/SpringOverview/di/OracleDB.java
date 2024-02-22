@@ -1,6 +1,6 @@
 package com.robotdreams.JavaSpringEduClass.week1.SecondDay.SpringOverview.di;
 
-public class OracleDB implements Database {
+public class OracleDB implements DatabaseService {
 
     public String connection;
 
@@ -8,7 +8,7 @@ public class OracleDB implements Database {
         this.connection = connection;
     }
 
-
+    @Override
     public void report(){
         System.out.println("send report");
     }
