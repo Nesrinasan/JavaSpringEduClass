@@ -15,14 +15,11 @@ CREATE TABLE IF NOT EXISTS producttb (
 );
 
 -- order tablosu
-CREATE TABLE IF NOT EXISTS ordertb (
-                                     id INT AUTO_INCREMENT PRIMARY KEY,
-                                     user_id INT NOT NULL,
-                                     product_id INT NOT NULL,
-                                     quantity INT NOT NULL,
-                                     order_date TIMESTAMP NOT NULL,
-                                     FOREIGN KEY (user_id) REFERENCES usertb(id),
-                                     FOREIGN KEY (product_id) REFERENCES producttb(id)
+CREATE TABLE IF NOT EXISTS orders (
+
+                                     order_number VARCHAR(255) NOT NULL,
+                                     total_amount DOUBLE NOT NULL
+
 );
 
 create table student
