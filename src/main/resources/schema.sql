@@ -14,13 +14,13 @@ CREATE TABLE IF NOT EXISTS producttb (
                                        price DECIMAL(10, 2) NOT NULL
 );
 
--- order tablosu
-CREATE TABLE IF NOT EXISTS orders (
-
-                                     order_number VARCHAR(255) NOT NULL,
-                                     total_amount DOUBLE NOT NULL
-
-);
+-- -- order tablosu
+-- CREATE TABLE IF NOT EXISTS orders (
+--
+--                                      order_number VARCHAR(255) NOT NULL,
+--                                      total_amount DOUBLE NOT NULL
+--
+-- );
 
 create table student
 (

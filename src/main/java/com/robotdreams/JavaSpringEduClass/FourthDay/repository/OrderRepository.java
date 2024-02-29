@@ -1,6 +1,6 @@
 package com.robotdreams.JavaSpringEduClass.FourthDay.repository;
 
-import com.robotdreams.JavaSpringEduClass.FourthDay.entity.Ordersss;
+import com.robotdreams.JavaSpringEduClass.FourthDay.entity.Order;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -13,14 +13,30 @@ import java.util.List;
 
 @Repository
 public class OrderRepository {
-    public List<Ordersss> findOrderByOrderNumber(String name) {
 
-        return null;
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
+
 
     @Transactional
-    public Ordersss saveOrder() {
-        return null;
+    public void saveOrder(String orderNumber) {
+      Order order = new Order();
+      order.setOrderNumber(orderNumber);
+
+      entityManager.merge(order);
+
+      System.out.printf("");
 
     }
+
+    public List<Order> findOrderByOrderNumber(String orderNumber) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Order> cq = cb.createQuery(Order.class);
+
+        Root<Order> orderRoot = cq.from(Order.class);
+        cq.select(orderRoot).where(cb.equal(orderRoot.get("orderNumber"), orderNumber));
+
+        return entityManager.createQuery(cq).getResultList();
+    }
+
 }
