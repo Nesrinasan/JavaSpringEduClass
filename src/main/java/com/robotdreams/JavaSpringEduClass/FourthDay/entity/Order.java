@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Table(name = "orders")
@@ -16,15 +17,22 @@ public class Order extends BaseEntity implements Serializable {
 	private String orderNumber;
 
 	private Date orderDate;
+	private String orderDescription;
 	private Double totalAmount;
+	//@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 
-	@ManyToMany
-	@JoinTable(
-			name = "Order_Product",
-			joinColumns = { @JoinColumn(name = "order_id") }, //order_product tablosunda görünecek isim.
-			inverseJoinColumns = { @JoinColumn(name = "product_id") } // order_product tablosundaki product'un alanı.
-	)
-	private Set<Product> products;
+	@OneToMany(mappedBy = "order")
+	private Set<OrderProduct> orderProducts = new HashSet<>();
+
+//
+//	@ManyToMany
+//	@JoinTable(
+//			name = "Order_Product",
+//			joinColumns = { @JoinColumn(name = "order_id") }, //order_product tablosunda görünecek isim.
+//			inverseJoinColumns = { @JoinColumn(name = "product_id") } // order_product tablosundaki product'un alanı.
+//	)
+//	private Set<Product> products;
+
 
 	public String getOrderNumber() {
 		return orderNumber;
@@ -50,12 +58,27 @@ public class Order extends BaseEntity implements Serializable {
 		this.totalAmount = totalAmount;
 	}
 
-
-	public Set<Product> getProducts() {
-		return products;
+	public String getOrderDescription() {
+		return orderDescription;
 	}
 
-	public void setProducts(Set<Product> products) {
-		this.products = products;
+	public void setOrderDescription(String orderDescription) {
+		this.orderDescription = orderDescription;
 	}
+
+	public Set<OrderProduct> getOrderProducts() {
+		return orderProducts;
+	}
+
+	public void setOrderProducts(Set<OrderProduct> orderProducts) {
+		this.orderProducts = orderProducts;
+	}
+
+	//	public Set<Product> getProducts() {
+//		return products;
+//	}
+//
+//	public void setProducts(Set<Product> products) {
+//		this.products = products;
+//	}
 }

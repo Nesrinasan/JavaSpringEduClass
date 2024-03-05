@@ -2,8 +2,9 @@ package com.robotdreams.JavaSpringEduClass.FourthDay.controller;
 
 
 import com.robotdreams.JavaSpringEduClass.FourthDay.dto.OrderInfoResponseDto;
+import com.robotdreams.JavaSpringEduClass.FourthDay.dto.OrderRequestDto;
 import com.robotdreams.JavaSpringEduClass.FourthDay.entity.Order;
-import com.robotdreams.JavaSpringEduClass.FourthDay.service.OrderService;
+import com.robotdreams.JavaSpringEduClass.FourthDay.service.OrderSpringJPAService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,24 +13,37 @@ import java.util.List;
 @RequestMapping("/order")
 public class OrderController {
 
-    private final OrderService orderService;
+    private final OrderSpringJPAService orderSpringJPAService;
 
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
+    public OrderController(OrderSpringJPAService orderSpringJPAService) {
+        this.orderSpringJPAService = orderSpringJPAService;
     }
-
-    @GetMapping("/getOrderByOrderNumber")
-    public List<OrderInfoResponseDto> getOrderByOrderNumber(@RequestParam String orderNumber){
-        return orderService.getOrderByOrderNumber(orderNumber);
-    }
+//
+//
+//    @GetMapping("/getOrderByOrderNumber")
+//    public List<OrderInfoResponseDto> getOrderByOrderNumber(@RequestParam String orderNumber){
+//        return orderService.getOrderByOrderNumber(orderNumber);
+//    }
 
     @PostMapping("/save")
-    public void save(@RequestParam String orderNumber){
-        orderService.save(orderNumber);
+    public void save(@RequestBody OrderRequestDto orderRequestDto){
+        orderSpringJPAService.save(orderRequestDto);
     }
+//
+//    @GetMapping("/getOrderByOrderNumberOrm")
+//    public List<Order> getOrderByOrderNumberOrm(@RequestParam String orderNumber){
+//        return orderService.getOrderByOrderNumberOrm(orderNumber);
+//    }
+//
+//    @DeleteMapping("/deleteOrderByOrderNumber")
+//    public void deleteOrderByOrderNumber(@RequestParam Long orderID){
+//        orderService.deleteOrderByOrderNumber(orderID);
+//    }
+//
+//
+//    @DeleteMapping("/deleteOrderByOrderNumberOrphanRemoval")
+//    public void deleteOrderByOrderNumberOrphanRemoval(@RequestParam Long orderID){
+//        orderService.deleteOrderByOrderNumber(orderID);
+//    }
 
-    @GetMapping("/getOrderByOrderNumberOrm")
-    public List<Order> getOrderByOrderNumberOrm(@RequestParam String orderNumber){
-        return orderService.getOrderByOrderNumberOrm(orderNumber);
-    }
 }

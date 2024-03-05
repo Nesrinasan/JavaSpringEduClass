@@ -1,4 +1,4 @@
-package com.robotdreams.JavaSpringEduClass.FourthDay.repository;
+package com.robotdreams.JavaSpringEduClass.FourthDay.mapper;
 
 
 import com.robotdreams.JavaSpringEduClass.FourthDay.dto.OrderInfoResponseDto;

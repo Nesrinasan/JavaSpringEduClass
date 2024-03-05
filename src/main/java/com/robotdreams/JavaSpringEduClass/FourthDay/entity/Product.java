@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -24,8 +25,11 @@ public class Product extends BaseEntity implements Serializable {
 
 	private Double price;
 
-	@ManyToMany(mappedBy = "products")
-	private Set<Order> orders;
+	@OneToMany(mappedBy = "product")
+	private Set<OrderProduct> orderProducts = new HashSet<>();
+
+//	@ManyToMany(mappedBy = "products")
+//	private Set<Order> orders;
 
 	private static final long serialVersionUID = 1L;
 
@@ -70,11 +74,11 @@ public class Product extends BaseEntity implements Serializable {
 		this.price = price;
 	}
 
-	public Set<Order> getOrders() {
-		return orders;
-	}
-
-	public void setOrders(Set<Order> orders) {
-		this.orders = orders;
-	}
+//	public Set<Order> getOrders() {
+//		return orders;
+//	}
+//
+//	public void setOrders(Set<Order> orders) {
+//		this.orders = orders;
+//	}
 }

@@ -2,7 +2,7 @@ package com.robotdreams.JavaSpringEduClass.FourthDay.entity;
 
 import jakarta.persistence.*;
 
-@Table(name = "orders")
+@Table
 @Entity
 public class OrderProduct {
 
@@ -10,15 +10,16 @@ public class OrderProduct {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 
+    //@ManyToOne(cascade = CascadeType.PERSIST)
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
-    private String name;
+    private String orderProductDesc;
 
     public Long getId() {
         return id;
@@ -44,11 +45,11 @@ public class OrderProduct {
         this.order = order;
     }
 
-    public String getName() {
-        return name;
+    public String getOrderProductDesc() {
+        return orderProductDesc;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setOrderProductDesc(String orderProductDesc) {
+        this.orderProductDesc = orderProductDesc;
     }
 }
