@@ -20,4 +20,12 @@ public class ProductController {
         productService.save(productSaveReqestDto);
     }
 
+    @DeleteMapping()
+    public void delete(@RequestParam Long productId){
+        productService.delete(productId);
+
+    }
+
+
+
 }

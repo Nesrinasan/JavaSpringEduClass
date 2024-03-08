@@ -8,6 +8,9 @@ import com.robotdreams.JavaSpringEduClass.RDMarketPlace.repository.OrderProductR
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.repository.OrderRepositorySpringJp;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Set;
+
 @Service
 public class OrderSpringJPAService {
 
@@ -31,7 +34,7 @@ public class OrderSpringJPAService {
 
 		Order order = new Order();
 		order.setOrderDescription(orderDescription);
-		orderRepositorySpringJp.save(order);
+		//orderRepositorySpringJp.save(order);
 
 		Product product = productService.findProductById(productId);
 
@@ -46,6 +49,20 @@ public class OrderSpringJPAService {
 
 	public void deleteOrderByOrderNumber(Long orderID){
 
+		Order order = orderRepositorySpringJp.findById(orderID).get();
+		List<OrderProduct> orderProductList = orderProductRepository.findAllByOrder(order);
+		for (OrderProduct orderProduct : orderProductList) {
+			orderProductRepository.delete(orderProduct);
+		}
+
+		orderRepositorySpringJp.delete(order);
+
+	}
+
+	public void deleteOrderByOrderNumberCascade(Long orderID){
+
+		Order order = orderRepositorySpringJp.findById(orderID).get();
+		orderRepositorySpringJp.delete(order);
 
 	}
 

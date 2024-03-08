@@ -37,9 +37,10 @@ public class OrderController {
 //    }
 //
 //
-    @DeleteMapping("/deleteOrderByOrderNumber")
+    @DeleteMapping("/deleteOrderByOrderId")
     public void deleteOrderByOrderNumber(@RequestParam Long orderID){
-        orderSpringJPAService.deleteOrderByOrderNumber(orderID);
+        orderSpringJPAService.deleteOrderByOrderNumberCascade(orderID);
     }
+
 
 }

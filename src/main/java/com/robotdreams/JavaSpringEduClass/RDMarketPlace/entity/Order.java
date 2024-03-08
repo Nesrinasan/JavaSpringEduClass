@@ -21,7 +21,7 @@ public class Order extends BaseEntity implements Serializable {
 	private Double totalAmount;
 	//@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 
-	@OneToMany(mappedBy = "order")
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 	private Set<OrderProduct> orderProducts = new HashSet<>();
 
 //

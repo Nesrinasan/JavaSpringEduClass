@@ -5,6 +5,8 @@ import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.Product;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ProductService {
 
@@ -28,4 +30,9 @@ public class ProductService {
     }
 
 
+    public void delete(Long productId) {
+        Product product = productRepository.findById(productId).get();
+        productRepository.delete(product);
+
+    }
 }
