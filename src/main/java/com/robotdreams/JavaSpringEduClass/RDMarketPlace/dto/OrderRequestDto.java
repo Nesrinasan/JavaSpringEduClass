@@ -1,16 +1,19 @@
 package com.robotdreams.JavaSpringEduClass.RDMarketPlace.dto;
 
+import java.util.List;
+
 public class OrderRequestDto {
 
-    private long productId;
+    private List<Long> productIdList;
+
     private String orderDescription;
 
-    public long getProductId() {
-        return productId;
+    public List<Long> getProductIdList() {
+        return productIdList;
     }
 
-    public void setProductId(long productId) {
-        this.productId = productId;
+    public void setProductIdList(List<Long> productIdList) {
+        this.productIdList = productIdList;
     }
 
     public String getOrderDescription() {
@@ -20,4 +23,5 @@ public class OrderRequestDto {
     public void setOrderDescription(String orderDescription) {
         this.orderDescription = orderDescription;
     }
+
 }

@@ -6,54 +6,49 @@ import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.Product;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.repository.OrderProductRepository;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.repository.OrderRepositorySpringJp;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.repository.ProductRepository;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
-public class Util {
+public class UtilOrderProduct {
 
     private final OrderRepositorySpringJp orderRepositorySpringJp;
     private final ProductRepository productRepository;
 
     private final OrderProductRepository orderProductRepository;
 
-    public Util(OrderRepositorySpringJp orderRepositorySpringJp, ProductRepository productRepository, OrderProductRepository orderProductRepository) {
+    public UtilOrderProduct(OrderRepositorySpringJp orderRepositorySpringJp, ProductRepository productRepository, OrderProductRepository orderProductRepository) {
         this.orderRepositorySpringJp = orderRepositorySpringJp;
         this.productRepository = productRepository;
         this.orderProductRepository = orderProductRepository;
     }
 
-  //  @PostConstruct
-    public void test(){
-        Order order = new Order();
-        order.setOrderDescription("sdf");
-
+    @PostConstruct
+    public void test() {
 
         Product product = new Product();
-        product.setCategory("dsd");
+        product.setCategory("phone");
+        product.setName("ıphone 15");
+        productRepository.save(product);
+
+        Product product3 = new Product();
+        product3.setCategory("phone");
+        product3.setName("ıphone 12");
+        productRepository.save(product3);
+
+        Product product2 = new Product();
+        product2.setCategory("tv");
+        productRepository.save(product2);
+
+        Order order = new Order();
+        order.setOrderDescription("order desc1");
+        //     orderRepositorySpringJp.save(order);
+
+//        Order order2 = new Order();
+//        order2.setOrderDescription("order desc2");
 
         OrderProduct orderProduct = new OrderProduct();
         orderProduct.setOrder(order);
-        orderProduct.setProduct(product);
-        orderProductRepository.save(orderProduct);
-
-
-    }
-
-    public void test2(){
-        Order order = new Order();
-        order.setOrderDescription("sdf");
-        order = orderRepositorySpringJp.save(order);
-
-        Product product = new Product();
-        product.setCategory("dsd");
-        product = productRepository.save(product);
-
-        OrderProduct orderProduct = new OrderProduct();
-        order = orderRepositorySpringJp.findById(order.getId()).get();
-        orderProduct.setOrder(order);
-        product = productRepository.findById(product.getId()).get();
         orderProduct.setProduct(product);
         orderProductRepository.save(orderProduct);
 

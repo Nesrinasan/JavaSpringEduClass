@@ -8,7 +8,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "product")
-@Embeddable
 public class Product extends BaseEntity implements Serializable {
 
 	@Column

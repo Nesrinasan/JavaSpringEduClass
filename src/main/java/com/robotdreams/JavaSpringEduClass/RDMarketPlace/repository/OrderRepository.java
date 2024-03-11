@@ -19,14 +19,15 @@ public class OrderRepository {
 
 
     @Transactional
-    public void saveOrder(String orderNumber) {
+    public Order saveOrder(String orderNumber) {
       Order order = new Order();
       order.setOrderNumber(orderNumber);
 
-      entityManager.merge(order);
+      Order merge = entityManager.merge(order);
 
       System.out.printf("");
 
+      return merge;
     }
 
     public List<Order> findOrderByOrderNumber(String orderNumber) {

@@ -15,7 +15,7 @@ public class OrderProduct {
     private Product product;
 
     //@ManyToOne(cascade = CascadeType.PERSIST)
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
     private Order order;
 
