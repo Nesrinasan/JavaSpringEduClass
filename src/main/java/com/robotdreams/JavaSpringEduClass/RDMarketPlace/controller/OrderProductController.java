@@ -16,6 +16,7 @@ public class OrderProductController {
     @GetMapping("/getProductByOrderId")
     public void getPRoductByOrderIdtest2(@RequestParam Long orderId){
         productOrderService.getPRoductByOrderId(orderId);
+        System.out.println("tess");
     }
 
     @GetMapping("/getProductByOrderId")
