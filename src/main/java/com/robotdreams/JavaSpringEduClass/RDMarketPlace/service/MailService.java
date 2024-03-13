@@ -23,7 +23,7 @@ public class MailService {
             mailBody = replaceFunction.replace(mailBody, name, orderNumber);
 
         }
-
+        System.out.println("sdfdf");
 
         try {
             Thread.sleep(2000);
