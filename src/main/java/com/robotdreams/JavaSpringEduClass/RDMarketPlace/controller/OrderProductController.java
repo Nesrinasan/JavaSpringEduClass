@@ -23,6 +23,8 @@ public class OrderProductController {
         public void getPRoductByOrderId(@RequestParam Long orderId){
         productOrderService.getPRoductByOrderId(orderId);
         System.out.println("");
+        System.out.println("tess");
+
     }
 
 
