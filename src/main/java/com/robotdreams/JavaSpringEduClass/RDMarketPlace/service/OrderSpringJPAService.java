@@ -1,17 +1,16 @@
 package com.robotdreams.JavaSpringEduClass.RDMarketPlace.service;
 
-import com.robotdreams.JavaSpringEduClass.RDMarketPlace.dto.OrderInfoResponseDto;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.dto.OrderRequestDto;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.Order;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.OrderProduct;
+import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.Users;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.repository.OrderProductRepository;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.repository.OrderRepositorySpringJp;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class OrderSpringJPAService {
@@ -22,11 +21,17 @@ public class OrderSpringJPAService {
 
     private final OrderProductRepository orderProductRepository;
 
+    private final UserService userService;
 
-    public OrderSpringJPAService(OrderRepositorySpringJp orderRepositorySpringJp, ProductService productService, OrderProductRepository orderProductRepository) {
+    private final MailService mailService;
+
+    public OrderSpringJPAService(OrderRepositorySpringJp orderRepositorySpringJp, ProductService productService, OrderProductRepository orderProductRepository, UserService userService, MailService mailService) {
         this.orderRepositorySpringJp = orderRepositorySpringJp;
         this.productService = productService;
         this.orderProductRepository = orderProductRepository;
+        this.userService = userService;
+
+        this.mailService = mailService;
     }
 
 
@@ -34,31 +39,13 @@ public class OrderSpringJPAService {
 
         List<Long> productIdList = orderRequestDto.getProductIdList();
         String orderDescription = orderRequestDto.getOrderDescription();
+        Long userId = orderRequestDto.getUserId();
 
         Order order = new Order();
         order.setOrderDescription(orderDescription);
-        //orderRepositorySpringJp.save(order);
-
-//		for (Long productId : productIdList) {
-//			Product product = productService.findProductById(productId);
-//			OrderProduct orderProduct = new OrderProduct();
-//			orderProduct.setOrder(order);
-//			orderProduct.setProduct(product);
-//			orderProductRepository.save(orderProduct);
-//		}
-
-        /**
-         * version 1
-         */
-//		List<Product> products = productIdList.stream().map(productService::findProductById).toList();
-//
-//		products.stream().forEach(product -> {
-//			OrderProduct orderProduct = new OrderProduct();
-//			orderProduct.setOrder(order);
-//			orderProduct.setProduct(product);
-//			orderProductRepository.save(orderProduct);
-//
-//		});
+        order.setOrderNumber(UUID.randomUUID().toString());
+        Optional<Users> userById = userService.findUserById(userId);
+        Users users = userById.get();
 
         productIdList
                 .stream()
@@ -69,6 +56,12 @@ public class OrderSpringJPAService {
                     orderProduct.setProduct(product);
                     orderProductRepository.save(orderProduct);
                 });
+
+
+        mailService.sendMailUser(order, users);
+
+        System.out.println("");
+
 
     }
 

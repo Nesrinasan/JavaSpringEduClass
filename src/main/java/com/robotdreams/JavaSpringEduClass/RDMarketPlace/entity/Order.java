@@ -24,6 +24,9 @@ public class Order extends BaseEntity implements Serializable {
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 	private Set<OrderProduct> orderProducts = new HashSet<>();
 
+	@ManyToOne
+	private Users users;
+
 //
 //	@ManyToMany
 //	@JoinTable(
@@ -72,6 +75,14 @@ public class Order extends BaseEntity implements Serializable {
 
 	public void setOrderProducts(Set<OrderProduct> orderProducts) {
 		this.orderProducts = orderProducts;
+	}
+
+	public Users getUsers() {
+		return users;
+	}
+
+	public void setUsers(Users users) {
+		this.users = users;
 	}
 
 	//	public Set<Product> getProducts() {

@@ -6,6 +6,8 @@ public class OrderRequestDto {
 
     private List<Long> productIdList;
 
+    private Long userId;
+
     private String orderDescription;
 
     public List<Long> getProductIdList() {
@@ -24,4 +26,11 @@ public class OrderRequestDto {
         this.orderDescription = orderDescription;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 }
