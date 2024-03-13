@@ -20,5 +20,9 @@ public class OrderProductController {
     }
 
 
+    @GetMapping("/getProductByOrderId")
+    public void getPRoductByOrderIdsTEST(@RequestParam Long orderId){
+        productOrderService.getPRoductByOrderId(orderId);
+    }
 
 }
