@@ -17,9 +17,10 @@ public class MailService {
         String name = users.getName();
         String email = users.getEmail();
 
-        String mailBody = "sevgili NAME siparişini aldık. numarası: ORDERNUMBER ";
+        String mailBody = "sevgili NAME siparişini aldık. numarası: ORDERNUMBER . detaylar emailinize gelmiştir.";
 
         mailBody = replaceFunction.replace(mailBody, name, orderNumber);
+
 
         try {
             Thread.sleep(2000);
