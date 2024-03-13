@@ -4,6 +4,7 @@ import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.Order;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.Users;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class MailService {
@@ -17,9 +18,11 @@ public class MailService {
         String name = users.getName();
         String email = users.getEmail();
 
-        String mailBody = "sevgili NAME siparişini aldık. numarası: ORDERNUMBER . detaylar emailinize gelmiştir.";
+        if(StringUtils.hasText(orderNumber)){
+            String mailBody = "sevgili NAME siparişini aldık. numarası: ORDERNUMBER . detaylar emailinize gelmiştir.";
+            mailBody = replaceFunction.replace(mailBody, name, orderNumber);
 
-        mailBody = replaceFunction.replace(mailBody, name, orderNumber);
+        }
 
 
         try {
