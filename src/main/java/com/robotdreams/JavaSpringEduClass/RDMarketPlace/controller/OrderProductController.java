@@ -14,23 +14,11 @@ public class OrderProductController {
         this.productOrderService = productOrderService;
     }
     @GetMapping("/getProductByOrderId")
-    public void getPRoductByOrderIdtest2(@RequestParam Long orderId){
-        productOrderService.getPRoductByOrderId(orderId);
-        System.out.println("tess");
-    }
-
-    @GetMapping("/getProductByOrderId")
         public void getPRoductByOrderId(@RequestParam Long orderId){
         productOrderService.getPRoductByOrderId(orderId);
-        System.out.println("");
-        System.out.println("tess");
+
 
     }
 
-
-    @GetMapping("/getProductByOrderId")
-    public void getPRoductByOrderIdsTEST(@RequestParam Long orderId){
-        productOrderService.getPRoductByOrderId(orderId);
-    }
 
 }
