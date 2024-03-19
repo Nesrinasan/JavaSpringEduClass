@@ -28,7 +28,13 @@ public class ProductService {
         Product product = new Product();
         product.setCategory(productSaveReqestDto.getCategory());
         product.setName(productSaveReqestDto.getName());
+        saveProduct(product);
+
+    }
+
+    public void saveProduct(Product product) {
         productRepository.save(product);
+
 
     }
 

@@ -8,6 +8,7 @@ import com.robotdreams.JavaSpringEduClass.RDMarketPlace.repository.OrderProductR
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.repository.OrderRepositorySpringJp;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.repository.ProductRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -49,27 +50,22 @@ public class ProductOrderService {
 
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void saveORderProduct(List<Long> productIdList, Order order) {
+        productIdList
+                .stream()
+                .map(productRepository::findById)
+                .forEach(product -> {
+                    OrderProduct orderProduct = new OrderProduct();
+                    orderProduct.setOrder(order);
+                    orderProduct.setProduct(product.get());
+                    int numberOfProduct = product.get().getNumberOfProduct();
+                    product.get().setNumberOfProduct(--numberOfProduct);
+                    orderProductRepository.save(orderProduct);
+                    productRepository.save(product.get());
 
-    @Transactional
-    public void saveOrderProduct(ProductOrderSaveReqestDto productOrderSaveReqestDto){
-
-        String orderDescription = productOrderSaveReqestDto.getOrderDescription();
-        Long productId = productOrderSaveReqestDto.getProductId();
-        Order order = new Order();
-        order.setOrderDescription(orderDescription);
-        orderRepositorySpringJp.save(order);
-        Product product = new Product();
-        product.setCategory("");
-        productRepository.save(product);
-        //Optional<Product> product = productRepository.findById(productId);
-  //      Product product1 = product.get();
-        OrderProduct orderProduct = new OrderProduct();
-        orderProduct.setProduct(product);
-        orderProduct.setOrder(order);
-        orderProductRepository.save(orderProduct);
-
+                });
     }
-
 
 
 

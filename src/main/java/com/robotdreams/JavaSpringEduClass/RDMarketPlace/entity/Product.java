@@ -1,6 +1,9 @@
 package com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -10,68 +13,80 @@ import java.util.Set;
 @Table(name = "product")
 public class Product extends BaseEntity implements Serializable {
 
-	@Column
-	private String name;
+    @Column
+    private String name;
 
-	@Column
-	private String category;
+    @Column
+    private String category;
 
-	private String photoUrl;
+    private String photoUrl;
 
-	private String description;
+    private String description;
 
-	private Double price;
+    private Double price;
 
-	@OneToMany(mappedBy = "product")
-	private Set<OrderProduct> orderProducts = new HashSet<>();
+    private int numberOfProduct;
+
+    @OneToMany(mappedBy = "product")
+    private Set<OrderProduct> orderProducts = new HashSet<>();
 
 //	@ManyToMany(mappedBy = "products")
 //	private Set<Order> orders;
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getCategory() {
-		return category;
-	}
+    public String getCategory() {
+        return category;
+    }
 
-	public void setCategory(String category) {
-		this.category = category;
-	}
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
-	public String getPhotoUrl() {
-		return photoUrl;
-	}
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
 
-	public void setPhotoUrl(String photoUrl) {
-		this.photoUrl = photoUrl;
-	}
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public Double getPrice() {
-		return price;
-	}
+    public Double getPrice() {
+        return price;
+    }
 
-	public void setPrice(Double price) {
-		this.price = price;
-	}
+    public void setPrice(Double price) {
+        this.price = price;
+    }
 
-//	public Set<Order> getOrders() {
+    public int getNumberOfProduct() {
+        return numberOfProduct;
+    }
+
+    public void setNumberOfProduct(int numberOfProduct) {
+
+        this.numberOfProduct = numberOfProduct;
+
+    }
+
+    //	public Set<Order> getOrders() {
 //		return orders;
 //	}
 //

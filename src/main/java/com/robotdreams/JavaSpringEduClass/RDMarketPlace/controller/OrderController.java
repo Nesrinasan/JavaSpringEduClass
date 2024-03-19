@@ -3,6 +3,7 @@ package com.robotdreams.JavaSpringEduClass.RDMarketPlace.controller;
 
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.dto.OrderRequestDto;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.service.OrderSpringJPAService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -43,6 +44,11 @@ public class OrderController {
     }
 
 
+    @PostMapping("/retunOorderByOrderId")
+    public ResponseEntity<String> retunOorderByOrderId(@RequestParam Long orderID){
+        String orderReturnMessage = orderSpringJPAService.retunOorderByOrderId(orderID);
+        return ResponseEntity.ok().body(orderReturnMessage);
+    }
 
 
 }
