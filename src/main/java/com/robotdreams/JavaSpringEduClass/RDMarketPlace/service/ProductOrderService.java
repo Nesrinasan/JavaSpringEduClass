@@ -59,16 +59,17 @@ public class ProductOrderService {
                     OrderProduct orderProduct = new OrderProduct();
                     orderProduct.setOrder(order);
                     orderProduct.setProduct(product.get());
+                    orderProductRepository.save(orderProduct);
                     int numberOfProduct = product.get().getNumberOfProduct();
                     product.get().setNumberOfProduct(--numberOfProduct);
-                    orderProductRepository.save(orderProduct);
                     productRepository.save(product.get());
 
                 });
     }
 
 
-
-
+    public List<OrderProduct> findAllByOrder(Order order){
+        return orderProductRepository.findAllByOrder(order);
+    }
 
 }

@@ -1,10 +1,7 @@
 package com.robotdreams.JavaSpringEduClass.RDMarketPlace.service;
 
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.dto.OrderRequestDto;
-import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.Order;
-import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.OrderProduct;
-import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.Product;
-import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.Users;
+import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.*;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.exceptionHandling.BusinessException;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.exceptionHandling.GeneralException;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.repository.OrderProductRepository;
@@ -21,11 +18,7 @@ import java.util.UUID;
 @Service
 public class OrderSpringJPAService {
 
-    private final OrderRepositorySpringJp orderRepositorySpringJp;
-
-    private final ProductService productService;
-
-    private final OrderProductRepository orderProductRepository;
+        private final OrderRepositorySpringJp orderRepositorySpringJp;
 
     private final UserService userService;
 
@@ -37,10 +30,7 @@ public class OrderSpringJPAService {
 
     public OrderSpringJPAService(OrderRepositorySpringJp orderRepositorySpringJp, ProductService productService, OrderProductRepository orderProductRepository, UserService userService, MailService mailService, ReportService reportService, ProductOrderService productOrderService) {
         this.orderRepositorySpringJp = orderRepositorySpringJp;
-        this.productService = productService;
-        this.orderProductRepository = orderProductRepository;
         this.userService = userService;
-
         this.mailService = mailService;
         this.reportService = reportService;
         this.productOrderService = productOrderService;
@@ -72,41 +62,40 @@ public class OrderSpringJPAService {
 
         productOrderService.saveORderProduct(productIdList, order);
 
-        reportService.createOrderReport2(order.getId().toString(), userId.toString());
-
+        reportService.createOrderReport2(order.getId(), userId.toString());
 
         mailService.sendMailUser(order, users);
 
-        try {
-            getCargoOffer(order.getId());
-        } catch (Exception e) {
-            //buraya mutlaka bir log ya da istisna fırlatacak bir exception yazılmalı.
-        }
-
-
-
+        getCargoOffer(order.getId());
 
     }
 
-
-
-    private void getCargoOffer(Long orderId) throws Exception {
+    public void getCargoOffer(Long orderId) {
 
         Optional<Order> repositorySpringJpById = orderRepositorySpringJp.findById(orderId);
 
         Order order = repositorySpringJpById.orElseThrow(GeneralException::new);
 
-        List<OrderProduct> orderProductList = orderProductRepository.findAllByOrder(order);
+        List<OrderProduct> orderProductList = productOrderService.findAllByOrder(order);
         Double totalPrice = 0.0;
+        int totalWeigth = 0;
         for (OrderProduct orderProduct : orderProductList) {
             Product product = orderProduct.getProduct();
             Double price = product.getPrice();
             totalPrice += price;
+            int weight = product.getWeight();
+            totalWeigth += weight;
+
         }
 
-        if (totalPrice < 50) {
+        if(totalWeigth > 20){
+            throw new BusinessException("ürün ağırlığı fazla. farklı bir kargo seçeneği ile ilerleyin");
+        }
+
+        if (totalPrice < 60) {
             throw new BusinessException("Ürün tutarınız 50 liranın altında");
         }
+
 
     }
 

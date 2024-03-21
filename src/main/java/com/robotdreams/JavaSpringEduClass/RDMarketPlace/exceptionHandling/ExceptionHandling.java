@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionHandling {
 
-
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<String> businessExceptionHandler(BusinessException businessException){
+        return new ResponseEntity<>( businessException.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 
 }

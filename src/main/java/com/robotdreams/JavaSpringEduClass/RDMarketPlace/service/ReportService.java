@@ -33,16 +33,14 @@ public class ReportService {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void createOrderReport2(String orderId, String userId) {
+    public void createOrderReport2(Long orderId, String userId) {
 
         Report report = new Report();
         report.setDescription("ürün siparişi oluştu");
-        report.setOrderId(orderId);
+        report.setOrderId(orderId.toString());
         report.setUserId(userId);
 
         reportRepository.save(report);
-        String s = null;
-        s.equals("");
 
     }
 

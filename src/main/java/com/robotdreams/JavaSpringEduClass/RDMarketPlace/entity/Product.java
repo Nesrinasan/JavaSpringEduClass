@@ -27,6 +27,8 @@ public class Product extends BaseEntity implements Serializable {
 
     private int numberOfProduct;
 
+    private int weight;
+
     @OneToMany(mappedBy = "product")
     private Set<OrderProduct> orderProducts = new HashSet<>();
 
@@ -84,6 +86,14 @@ public class Product extends BaseEntity implements Serializable {
 
         this.numberOfProduct = numberOfProduct;
 
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 
     //	public Set<Order> getOrders() {

@@ -2,6 +2,7 @@ package com.robotdreams.JavaSpringEduClass.RDMarketPlace.service;
 
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.Order;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.Users;
+import com.robotdreams.JavaSpringEduClass.RDMarketPlace.utils.CommunicationValidation;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -17,6 +18,9 @@ public class MailService {
         String orderNumber = order.getOrderNumber();
         String name = users.getName();
         String email = users.getEmail();
+        if(CommunicationValidation.isValidEmail(email)){
+
+        }
 
         if(StringUtils.hasText(orderNumber)){
             String mailBody = "sevgili NAME siparişini aldık. numarası: ORDERNUMBER . detaylar emailinize gelmiştir.";

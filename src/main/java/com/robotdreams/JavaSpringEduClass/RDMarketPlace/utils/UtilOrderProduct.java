@@ -35,17 +35,20 @@ public class UtilOrderProduct {
         product.setCategory("phone");
         product.setName("ıphone 15");
         product.setNumberOfProduct(12);
+        product.setPrice(30.0);
         productRepository.save(product);
 
         Product product3 = new Product();
         product3.setCategory("phone");
         product3.setName("ıphone 12");
         product3.setNumberOfProduct(11);
+        product3.setPrice(30.0);
         productRepository.save(product3);
 
         Product product2 = new Product();
         product2.setCategory("tv");
         product2.setNumberOfProduct(23);
+        product2.setPrice(20.0);
         productRepository.save(product2);
 
         Order order = new Order();

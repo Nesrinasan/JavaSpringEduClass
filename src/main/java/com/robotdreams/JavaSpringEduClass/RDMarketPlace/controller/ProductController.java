@@ -5,6 +5,7 @@ import com.robotdreams.JavaSpringEduClass.RDMarketPlace.dto.ProductResponseByCat
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.dto.ProductSaveReqestDto;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.Product;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.service.ProductService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,9 +28,9 @@ public class ProductController {
     }
 
     @DeleteMapping()
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@RequestParam Long productId) {
         productService.delete(productId);
-
     }
 
     @GetMapping("/productListByCategory/{category}")
