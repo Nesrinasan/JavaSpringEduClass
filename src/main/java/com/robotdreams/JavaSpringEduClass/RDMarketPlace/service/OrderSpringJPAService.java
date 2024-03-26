@@ -1,11 +1,18 @@
 package com.robotdreams.JavaSpringEduClass.RDMarketPlace.service;
 
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.dto.OrderRequestDto;
-import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.*;
-import com.robotdreams.JavaSpringEduClass.RDMarketPlace.exceptionHandling.BusinessException;
+import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.Order;
+import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.OrderProduct;
+import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.Product;
+import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.Users;
+import com.robotdreams.JavaSpringEduClass.RDMarketPlace.exceptionHandling.*;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.exceptionHandling.GeneralException;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.repository.OrderProductRepository;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.repository.OrderRepositorySpringJp;
+import com.robotdreams.JavaSpringEduClass.RDMarketPlace.service.shipping.DHLShippingStrategy;
+import com.robotdreams.JavaSpringEduClass.RDMarketPlace.service.shipping.FedExShippingStrategy;
+import com.robotdreams.JavaSpringEduClass.RDMarketPlace.service.shipping.ShippingCostCalculator;
+import com.robotdreams.JavaSpringEduClass.RDMarketPlace.service.shipping.UPSShippingStrategy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +25,7 @@ import java.util.UUID;
 @Service
 public class OrderSpringJPAService {
 
-        private final OrderRepositorySpringJp orderRepositorySpringJp;
+    private final OrderRepositorySpringJp orderRepositorySpringJp;
 
     private final UserService userService;
 
@@ -36,9 +43,7 @@ public class OrderSpringJPAService {
         this.productOrderService = productOrderService;
     }
 
-
     public void test() {
-
         try {
             FileReader fileReader = new FileReader("");
         } catch (FileNotFoundException e) {
@@ -59,6 +64,7 @@ public class OrderSpringJPAService {
         order.setOrderNumber(UUID.randomUUID().toString());
         Optional<Users> userById = userService.findUserById(userId);
         Users users = userById.get();
+        order.setUsers(users);
 
         productOrderService.saveORderProduct(productIdList, order);
 
@@ -66,51 +72,71 @@ public class OrderSpringJPAService {
 
         mailService.sendMailUser(order, users);
 
-        getCargoOffer(order.getId());
+        getCargoOffer(order, users);
 
+        System.out.println(order.getTotalAmount());
     }
 
-    public void getCargoOffer(Long orderId) {
+    public void getCargoOffer(Order order, Users users) {
+        Users users1 = new Users();
+        users1.equals(users);
+        System.out.println(users1);
 
-        Optional<Order> repositorySpringJpById = orderRepositorySpringJp.findById(orderId);
+        Optional<Order> repositorySpringJpById = orderRepositorySpringJp.findById(order.getId());
 
-        Order order = repositorySpringJpById.orElseThrow(GeneralException::new);
+        Order orders = repositorySpringJpById.orElseThrow(GeneralException::new);
 
-        List<OrderProduct> orderProductList = productOrderService.findAllByOrder(order);
-        Double totalPrice = 0.0;
+        List<OrderProduct> orderProductList = productOrderService.findAllByOrder(orders);
+
         int totalWeigth = 0;
         for (OrderProduct orderProduct : orderProductList) {
             Product product = orderProduct.getProduct();
-            Double price = product.getPrice();
-            totalPrice += price;
             int weight = product.getWeight();
             totalWeigth += weight;
 
         }
+        ShippingCostCalculator calculator = null;
+        if (users.isPremium()) {
+            calculator = new ShippingCostCalculator(new UPSShippingStrategy());
+            System.out.println("UPS Shipping Cost: " + calculator.calculateCost(totalWeigth));
+            order.setTotalAmount(calculator.calculateCost(totalWeigth));
+            return;
+        }
 
-        if(totalWeigth > 20){
+        if (totalWeigth > 200) {
             throw new BusinessException("ürün ağırlığı fazla. farklı bir kargo seçeneği ile ilerleyin");
         }
 
-        if (totalPrice < 60) {
-            throw new BusinessException("Ürün tutarınız 50 liranın altında");
-        }
-
+        calculate(order, totalWeigth);
 
     }
 
-    public void deleteOrderByOrderNumberCascade(Long orderID) {
+    private void calculate(Order order, int totalWeigth) {
+        ShippingCostCalculator calculator;
+        if(totalWeigth > 0 && totalWeigth <= 100){
+            calculator = new ShippingCostCalculator(new FedExShippingStrategy());
+            order.setTotalAmount(calculator.calculateCost(totalWeigth));
 
+        }else if(totalWeigth > 100 && totalWeigth < 200){
+            calculator = new ShippingCostCalculator(new DHLShippingStrategy());
+            order.setTotalAmount(calculator.calculateCost(totalWeigth));
+
+        }
+    }
+
+    public void deleteOrderByOrderNumberCascade(Long orderID) {
         Order order = orderRepositorySpringJp.findById(orderID).get();
         orderRepositorySpringJp.delete(order);
 
     }
 
-    public String retunOorderByOrderId(Long orderId) {
+    public String retunOorderByOrderId(Long orderId, Long userId) {
         //order ön işlemler
 
         try {
-            getCargoOffer(orderId);
+            Order order = orderRepositorySpringJp.findById(orderId).get();
+            Optional<Users> userById = userService.findUserById(userId);
+            getCargoOffer(order, userById.get());
         } catch (Exception e) {
             getDefaultCargo();
             return "Kargo iadesi için ücretsiz kargo kampanyasından faydalanamazsınız. minimum tutar geçerli değil ";

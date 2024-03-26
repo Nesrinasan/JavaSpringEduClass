@@ -1,6 +1,7 @@
 package com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,6 +10,8 @@ import java.util.Set;
 
 @Table(name = "orders")
 @Entity
+@Getter
+@Setter
 public class Order extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -24,10 +27,10 @@ public class Order extends BaseEntity implements Serializable {
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 	private Set<OrderProduct> orderProducts = new HashSet<>();
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Users users;
 
-//
+	//
 //	@ManyToMany
 //	@JoinTable(
 //			name = "Order_Product",
@@ -37,53 +40,7 @@ public class Order extends BaseEntity implements Serializable {
 //	private Set<Product> products;
 
 
-	public String getOrderNumber() {
-		return orderNumber;
-	}
 
-	public void setOrderNumber(String orderNumber) {
-		this.orderNumber = orderNumber;
-	}
-
-	public Date getOrderDate() {
-		return orderDate;
-	}
-
-	public void setOrderDate(Date orderDate) {
-		this.orderDate = orderDate;
-	}
-
-	public Double getTotalAmount() {
-		return totalAmount;
-	}
-
-	public void setTotalAmount(Double totalAmount) {
-		this.totalAmount = totalAmount;
-	}
-
-	public String getOrderDescription() {
-		return orderDescription;
-	}
-
-	public void setOrderDescription(String orderDescription) {
-		this.orderDescription = orderDescription;
-	}
-
-	public Set<OrderProduct> getOrderProducts() {
-		return orderProducts;
-	}
-
-	public void setOrderProducts(Set<OrderProduct> orderProducts) {
-		this.orderProducts = orderProducts;
-	}
-
-	public Users getUsers() {
-		return users;
-	}
-
-	public void setUsers(Users users) {
-		this.users = users;
-	}
 
 	//	public Set<Product> getProducts() {
 //		return products;

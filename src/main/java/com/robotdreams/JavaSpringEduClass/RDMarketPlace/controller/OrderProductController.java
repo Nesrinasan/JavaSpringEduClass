@@ -14,7 +14,7 @@ public class OrderProductController {
         this.productOrderService = productOrderService;
     }
     @GetMapping("/getProductByOrderId")
-        public void getPRoductByOrderId(@RequestParam Long orderId){
+    public void getPRoductByOrderId(@RequestParam Long orderId){
         productOrderService.getPRoductByOrderId(orderId);
 
 

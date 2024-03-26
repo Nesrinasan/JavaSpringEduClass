@@ -1,36 +1,29 @@
 package com.robotdreams.JavaSpringEduClass.RDMarketPlace.service;
 
-import com.robotdreams.JavaSpringEduClass.RDMarketPlace.dto.ProductOrderSaveReqestDto;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.Order;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.OrderProduct;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.Product;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.repository.OrderProductRepository;
-import com.robotdreams.JavaSpringEduClass.RDMarketPlace.repository.OrderRepositorySpringJp;
-import com.robotdreams.JavaSpringEduClass.RDMarketPlace.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 @Service
+@RequiredArgsConstructor
 public class ProductOrderService {
 
     private final OrderProductRepository orderProductRepository;
-    private final ProductRepository productRepository;
-    private final OrderRepositorySpringJp orderRepositorySpringJp;
-
-
-    public ProductOrderService(OrderProductRepository orderProductRepository, ProductRepository productRepository, OrderRepositorySpringJp orderRepositorySpringJp) {
-        this.orderProductRepository = orderProductRepository;
-        this.productRepository = productRepository;
-        this.orderRepositorySpringJp = orderRepositorySpringJp;
-    }
+    private final ProductService productService;
+    private final OrderService orderService;
 
     public void getPRoductByOrderId(Long orderId){
 
-        Order order = orderRepositorySpringJp.findById(orderId).get();
+        Order order = orderService.findById(orderId);
+
+        System.out.println(order);
 
         List<OrderProduct> allByOrder = orderProductRepository.findAllByOrder(order);
         for (OrderProduct orderProduct : allByOrder) {
@@ -54,15 +47,16 @@ public class ProductOrderService {
     public void saveORderProduct(List<Long> productIdList, Order order) {
         productIdList
                 .stream()
-                .map(productRepository::findById)
+                .map(productService::findProductById)
                 .forEach(product -> {
                     OrderProduct orderProduct = new OrderProduct();
                     orderProduct.setOrder(order);
-                    orderProduct.setProduct(product.get());
+                    orderProduct.setProduct(product);
                     orderProductRepository.save(orderProduct);
-                    int numberOfProduct = product.get().getNumberOfProduct();
-                    product.get().setNumberOfProduct(--numberOfProduct);
-                    productRepository.save(product.get());
+                    int numberOfProduct = product.getNumberOfProduct();
+                    product.setNumberOfProduct(--numberOfProduct);
+                    productService.saveProduct(product);
+                    System.out.println(order);
 
                 });
     }

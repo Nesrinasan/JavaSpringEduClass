@@ -3,6 +3,7 @@ package com.robotdreams.JavaSpringEduClass.unittest;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.Order;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.OrderProduct;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.Product;
+import com.robotdreams.JavaSpringEduClass.RDMarketPlace.entity.Users;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.exceptionHandling.BusinessException;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.repository.OrderRepositorySpringJp;
 import com.robotdreams.JavaSpringEduClass.RDMarketPlace.service.OrderSpringJPAService;
@@ -52,7 +53,7 @@ public class OrderServiceUnitTests {
 
         Mockito.when(productOrderService.findAllByOrder(order.get())).thenReturn(orderProductList);
 
-        orderSpringJPAService.getCargoOffer(orderID);
+        orderSpringJPAService.getCargoOffer(order.get(), new Users());
         Mockito.verify(orderRepositorySpringJp, Mockito.times(1)).findById(orderID);
 
     }
@@ -76,7 +77,7 @@ public class OrderServiceUnitTests {
         Mockito.when(productOrderService.findAllByOrder(order.get())).thenReturn(orderProductList);
 
         Exception exception = assertThrows(BusinessException.class, () -> {
-            orderSpringJPAService.getCargoOffer(1L);
+            orderSpringJPAService.getCargoOffer(order.get(), new Users());
         });
 
         // Hata mesajının doğruluğunun kontrol edilmesi
@@ -106,7 +107,7 @@ public class OrderServiceUnitTests {
         Mockito.when(productOrderService.findAllByOrder(order.get())).thenReturn(orderProductList);
 
         Exception exception = assertThrows(BusinessException.class, () -> {
-            orderSpringJPAService.getCargoOffer(1L);
+            orderSpringJPAService.getCargoOffer(order.get(), new Users());
         });
 
         // Hata mesajının doğruluğunun kontrol edilmesi

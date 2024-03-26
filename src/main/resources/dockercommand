@@ -1,0 +1,29 @@
+docker build -t edu:latest .
+
+-t : tagleme yapmak için kullanılır.
+
+ docker run -p 8080:8989 edu:latest
+
+-p : port ataması yapar. 8080 ana makinenin portudur. 8989 ise uygulamanın portudur. http://localhost:8080 üzerinden ana makineye gelen isteklar
+8989 portruna yönlendirilir.
+
+docker-compose up --build : dockerfile dosyanızda değişiklik yapılmışsa dikkate alır yeniden o değişiklikle image oluşturur
+
+docker-compose up : var olan imageları kullanarak yeni image oluşturur.
+
+add docker hub: docker build -t marketplace .
+
+ docker tag marketplace:latest nesrinasan/marketplace:latest
+ docker push nesrinasan/marketplace:latest
+
+ yeni kod : yeni bir image oluşturup onu farklı version ile çıkabilriz.
+docker build -t nesrinasan/marketplace:1.1.1 .
+docker push nesrinasan/marketplace:1.1.1
+
+
+docker build -t nesrinasan/mm:1.1.2 .
+docker push nesrinasan/mm:1.1.2
+
+
+
+

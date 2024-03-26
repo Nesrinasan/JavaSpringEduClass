@@ -41,6 +41,10 @@ public class OrderService {
 
 	}
 
+	public Order findById(Long id){
+		return orderRepositorySpringJp.findById(id).get();
+	}
+
 
 	public List<OrderInfoResponseDto> getOrderByOrderNumber(String orderNumber){
 

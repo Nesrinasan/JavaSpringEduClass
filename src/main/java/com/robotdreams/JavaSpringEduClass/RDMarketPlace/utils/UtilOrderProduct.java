@@ -51,7 +51,15 @@ public class UtilOrderProduct {
         product2.setPrice(20.0);
         productRepository.save(product2);
 
+        Users users = new Users();
+        users.setPremium(true);
+        users.setName("NEsrin");
+        users.setLastName("Aşan");
+        userRepository.save(users);
+
+
         Order order = new Order();
+        order.setUsers(users);
         order.setOrderDescription("order desc1");
         //     orderRepositorySpringJp.save(order);
 
@@ -63,10 +71,6 @@ public class UtilOrderProduct {
         orderProduct.setProduct(product);
         orderProductRepository.save(orderProduct);
 
-        Users users = new Users();
-        users.setName("NEsrin");
-        users.setLastName("Aşan");
-        userRepository.save(users);
 
 
     }
